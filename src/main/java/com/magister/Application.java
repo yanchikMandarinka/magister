@@ -14,6 +14,13 @@ import com.magister.sensors.WirelessSensorNetwork;
 @SpringBootApplication
 public class Application {
 
+//    @Bean
+//    public ServletRegistrationBean h2servletRegistration() {
+//        ServletRegistrationBean registration = new ServletRegistrationBean(new WebServlet());
+//        registration.addUrlMappings("/console/*");
+//        return registration;
+//    }
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
