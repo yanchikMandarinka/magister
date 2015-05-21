@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,17 +21,35 @@
     <![endif]-->
 </head>
 <body>
-    <jsp:include page="/WEB-INF/jsp/template/header.jsp"/>
-    
+    <jsp:include page="/WEB-INF/jsp/template/header.jsp" />
+
     <div class="container">
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Links</div>
+            <div class="panel-heading">Sensor networks</div>
             <div class="panel-body">
-                <a href="/network/sensors">List of network sensors</a>
+                <table id="commands" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Network Id</th>
+                            <th>Network name</th>
+                            <th>Motes count</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <c:forEach var="network" items="${networks}">
+                            <tr>
+                                <td>${network.id}</td>
+                                <td>${network.name}</td>
+                                <td>${fn:length(network.motes)}</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                <a href="/network/create" class="btn btn-success">Create new network</a>
             </div>
         </div>
-
 
     </div>
     <!-- /.container -->
