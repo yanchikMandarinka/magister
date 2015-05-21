@@ -26,30 +26,34 @@
     <div class="container">
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Sensor networks</div>
+            <div class="panel-heading">Network with id=${network.id} and name=${network.name}</div>
             <div class="panel-body">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Network Id</th>
-                            <th>Network name</th>
-                            <th>Network mode</th>
-                            <th>Motes count</th>
+                            <th>Mote id</th>
+                            <th>Mote power</th>
+                            <th>Latitude</th>
+                            <th>Longtitude</th>
+                            <th>Type</th>
+                            <th>Gateway</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <c:forEach var="network" items="${networks}">
+                        <c:forEach var="mote" items="${network.motes}">
                             <tr>
-                                <td><a href="/network/show?id=${network.id}">${network.id}</a></td>
-                                <td>${network.name}</td>
-                                <td>${network.mode}</td>
-                                <td>${fn:length(network.motes)}</td>
+                                <td><a href="/mote/show?id=${mote.id}">${mote.id}</a></td>
+                                <td>${mote.power}</td>
+                                <td>${mote.latitude}</td>
+                                <td>${mote.longtitude}</td>
+                                <td>${mote.moteType}</td>
+                                <td>${mote.gateway}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
-                <a href="/network/create" class="btn btn-success">Create new network</a>
+                <!-- a href="/network/create" class="btn btn-success">Create new network</a> -->
             </div>
         </div>
 

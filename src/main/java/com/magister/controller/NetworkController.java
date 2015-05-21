@@ -24,6 +24,16 @@ public class NetworkController {
         return "network/network";
     }
 
+    @RequestMapping("/show")
+    public ModelAndView show(long id) {
+        Network network = networkRepository.findOne(id);
+
+        ModelAndView modelAndView = new ModelAndView("network/show");
+        modelAndView.addObject("network", network);
+
+        return modelAndView;
+    }
+
     @RequestMapping("/create")
     public ModelAndView createNetwork() {
         return new ModelAndView("network/create", "command", new Network());

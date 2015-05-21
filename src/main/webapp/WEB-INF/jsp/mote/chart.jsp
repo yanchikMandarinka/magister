@@ -26,30 +26,9 @@
     <div class="container">
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Sensor networks</div>
+            <div class="panel-heading">Chart for ...</div>
             <div class="panel-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Network Id</th>
-                            <th>Network name</th>
-                            <th>Network mode</th>
-                            <th>Motes count</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <c:forEach var="network" items="${networks}">
-                            <tr>
-                                <td><a href="/network/show?id=${network.id}">${network.id}</a></td>
-                                <td>${network.name}</td>
-                                <td>${network.mode}</td>
-                                <td>${fn:length(network.motes)}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-                <a href="/network/create" class="btn btn-success">Create new network</a>
+                <p>THIS IS A PLCAEHOLDER FOR CHART FOR PARTICULAR MOTE</p>
             </div>
         </div>
 
