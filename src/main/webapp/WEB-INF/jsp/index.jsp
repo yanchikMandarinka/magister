@@ -25,7 +25,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Links</div>
             <div class="panel-body">
-                <a href="/network/sensors">List of network sensors</a>
+                <a href="/network/list">Networks list</a>
             </div>
         </div>
 
