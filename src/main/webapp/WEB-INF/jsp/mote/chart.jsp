@@ -28,7 +28,41 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Chart for ...</div>
             <div class="panel-body">
-                <p>THIS IS A PLCAEHOLDER FOR CHART FOR PARTICULAR MOTE</p>
+                <table class="highchart table" data-graph-container-before="1" data-graph-type="line">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Temperature</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>20</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -40,5 +74,13 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- Highcharts -->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharttable.org/master/jquery.highchartTable-min.js"></script>
+    <script type="text/javascript">
+					$(function() {
+						 $('table.highchart').highchartTable();
+					});
+				</script>
 </body>
 </html>
