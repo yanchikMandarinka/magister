@@ -1,4 +1,4 @@
-package com.magister.sensors;
+package com.magister.network;
 
 public enum SensorType {
     TEMPERATURE,

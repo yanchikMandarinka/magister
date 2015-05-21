@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>Bootstrap 101 Template</title>
+<title>Sensor network</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -33,6 +33,7 @@
                         <tr>
                             <th>Network Id</th>
                             <th>Network name</th>
+                            <th>Network mode</th>
                             <th>Motes count</th>
                         </tr>
                     </thead>
@@ -42,6 +43,7 @@
                             <tr>
                                 <td>${network.id}</td>
                                 <td>${network.name}</td>
+                                <td>${network.mode}</td>
                                 <td>${fn:length(network.motes)}</td>
                             </tr>
                         </c:forEach>
