@@ -6,7 +6,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import com.magister.db.DatabasePopulator;
-import com.magister.network.service.SensorNetworkService;
+import com.magister.network.service.NetworkEmulationService;
 
 @Component
 public class ContextRefreshedListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -15,7 +15,7 @@ public class ContextRefreshedListener implements ApplicationListener<ContextRefr
     private DatabasePopulator populator;
 
     @Autowired
-    private SensorNetworkService service;
+    private NetworkEmulationService service;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {

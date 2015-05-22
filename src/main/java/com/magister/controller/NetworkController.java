@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.magister.db.domain.Network;
 import com.magister.db.repository.NetworkRepository;
+import com.magister.network.service.NetworkEmulationService;
 
 @Controller
 @RequestMapping("/network")
@@ -16,6 +17,9 @@ public class NetworkController {
 
     @Autowired
     private NetworkRepository networkRepository;
+
+    @Autowired
+    private NetworkEmulationService sensorNetworkService;
 
     @RequestMapping(value = { "/list", "/" })
     public String networks(Model model) {
@@ -39,11 +43,13 @@ public class NetworkController {
         return new ModelAndView("network/create", "command", new Network());
     }
 
-    @RequestMapping("/save")
+    @RequestMapping("/save") //TODO: can it be update too?
     public String createNetwork(Network network) {
         Assert.hasText(network.getName());
 
+        // when we save new network we need to start/restart it's emulation
         networkRepository.save(network);
+        sensorNetworkService.emulateNetwork(network);
         return "redirect:list";
     }
 

@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 public class Mote {
 
     public static enum MoteType {
-        TEMP, LIGHT
+        TEMPERATURE, LIGHTNESS
     }
 
     @Id
@@ -39,11 +39,14 @@ public class Mote {
     @Enumerated(EnumType.STRING)
     private MoteType moteType;
 
+    @Column(name = "mote_delay", nullable = false)
+    private long delay;
+
     @Column(name = "mote_gateway", nullable = false)
     private boolean isGateway;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="mote_id", referencedColumnName="mote_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "mote_id", referencedColumnName = "mote_id")
     private List<SensorData> metering;
 
     public long getId() {
@@ -70,6 +73,10 @@ public class Mote {
         return latitude;
     }
 
+    /**
+     * The valid range of latitude in degrees is -90 and +90
+     * for the southern and northern hemisphere respectively.
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
@@ -78,6 +85,9 @@ public class Mote {
         return longtitude;
     }
 
+    /**
+     * Longitude is in the range -180 and +180 specifying the east-west position.
+     */
     public void setLongtitude(double longtitude) {
         this.longtitude = longtitude;
     }
@@ -88,6 +98,17 @@ public class Mote {
 
     public void setMoteType(MoteType moteType) {
         this.moteType = moteType;
+    }
+
+    /**
+     * Delay in seconds. Mote sleeps for delay and than gather sensors data and sends the data.
+     */
+    public long getDelay() {
+        return delay;
+    }
+
+    public void setDelay(long delay) {
+        this.delay = delay;
     }
 
     public boolean isGateway() {

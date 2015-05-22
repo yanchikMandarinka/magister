@@ -26,41 +26,22 @@
     <div class="container">
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Chart for ...</div>
+            <div class="panel-heading">Chart for mote with id=${mote.id}</div>
             <div class="panel-body">
                 <table class="highchart table" data-graph-container-before="1" data-graph-type="line">
                     <thead>
                         <tr>
-                            <th>Time</th>
-                            <th>Temperature</th>
+                            <th>Timestamp</th>
+                            <th>${mote.moteType}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>30</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>10</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>20</td>
-                        </tr>
-                        
+                        <c:forEach var="data" items="${mote.metering}">
+                            <tr>
+                                <td>${data.timestamp}</td>
+                                <td>${data.value}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -79,7 +60,7 @@
     <script src="http://code.highcharttable.org/master/jquery.highchartTable-min.js"></script>
     <script type="text/javascript">
 					$(function() {
-						 $('table.highchart').highchartTable();
+						$('table.highchart').highchartTable();
 					});
 				</script>
 </body>

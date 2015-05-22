@@ -36,6 +36,7 @@
                             <th>Latitude</th>
                             <th>Longtitude</th>
                             <th>Type</th>
+                            <th>Delay(seconds)</th>
                             <th>Gateway</th>
                         </tr>
                     </thead>
@@ -48,6 +49,7 @@
                                 <td>${mote.latitude}</td>
                                 <td>${mote.longtitude}</td>
                                 <td>${mote.moteType}</td>
+                                <td>${mote.delay}</td>
                                 <td>${mote.gateway}</td>
                             </tr>
                         </c:forEach>

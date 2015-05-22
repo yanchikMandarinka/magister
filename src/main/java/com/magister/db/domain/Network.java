@@ -68,4 +68,9 @@ public class Network {
     public void setMode(Mode mode) {
         this.mode = mode;
     }
+
+    @Override
+    public String toString() {
+        return "Network [id=" + id + ", name=" + name + ", mode=" + mode + "]";
+    }
 }

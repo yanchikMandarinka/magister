@@ -12,13 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.magister.ContextRefreshedListener;
 import com.magister.db.domain.Network;
 import com.magister.db.repository.NetworkRepository;
 
 @Service
-public class SensorNetworkService {
+public class NetworkEmulationService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SensorNetworkService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NetworkEmulationService.class);
 
     private ExecutorService executor = Executors.newCachedThreadPool();
     private Map<Long, Future<Boolean>> networks = new ConcurrentHashMap<>();
@@ -29,26 +30,34 @@ public class SensorNetworkService {
     @Autowired
     private NetworkCallableFactory factory;
 
-    public void reconfigure(Network network) {
+    public void emulateNetwork(Network network) {
         Future<Boolean> future = networks.get(network.getId());
-        future.cancel(true);
+        // cancel emulation if it is already running
+        if (future != null) {
+            future.cancel(true);
+        }
 
         long networkId = network.getId();
         Network reloadedNetwork = networkRepository.findOne(networkId);
-        emulateNetwork(reloadedNetwork);
+        emulateNetworkInternal(reloadedNetwork);
     }
 
+    /**
+     * Starts network emulation.
+     * The method should be called by {@link ContextRefreshedListener} on application startup.
+     */
     public void emulateNetworks() {
         LOG.info("Loading sensor networks definitions from database");
         // when context reloaded and application is started
         // we should start all networks
         Iterable<Network> networks = networkRepository.findAll();
         for (Network network : networks) {
-            emulateNetwork(network);
+            emulateNetworkInternal(network);
         }
     }
 
-    private void emulateNetwork(Network network) {
+    private void emulateNetworkInternal(Network network) {
+        LOG.info("Starting network emulation for {}", network);
         Callable<Boolean> networkCallable = factory.createNetworkCallable(network);
         Future<Boolean> future = executor.submit(networkCallable);
         networks.put(network.getId(), future);
