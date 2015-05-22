@@ -78,7 +78,7 @@ public class DatabasePopulator {
         mote.setLongtitude(-180 + random.nextInt(360));
         mote.setMoteType(moteType);
         mote.setGateway(gateway);
-        mote.setDelay(10 + random.nextInt(50));
+        mote.setDelay(5 + random.nextInt(30));
 
         return mote;
     }

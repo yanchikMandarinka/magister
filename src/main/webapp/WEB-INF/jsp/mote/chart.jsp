@@ -58,7 +58,7 @@
     <!-- Highcharts 
     <script src="http://code.highcharts.com/highcharts.js"></script>-->
     <script src="/js/highcharts.js"></script>
-    <script src="http://code.highcharttable.org/master/jquery.highchartTable-min.js"></script>
+    <script src="/js/highchartTable.js"></script>
     <script type="text/javascript">
 					$(function() {
 						$('table.highchart').highchartTable();
