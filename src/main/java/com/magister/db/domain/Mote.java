@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -23,7 +22,7 @@ public class Mote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "mote_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private long id;
 
     @Column(name = "mote_power", nullable = false)
@@ -46,7 +45,6 @@ public class Mote {
     private boolean isGateway;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "mote_id", referencedColumnName = "mote_id")
     private List<SensorData> metering;
 
     public long getId() {
@@ -125,5 +123,17 @@ public class Mote {
 
     public void setMetering(List<SensorData> metering) {
         this.metering = metering;
+    }
+
+//    public void addSensorData(SensorData sensorData) {
+//        this.metering.add(sensorData);
+//        if (sensorData.getMote() != this) {
+//            sensorData.setMote(this);
+//        }
+//    }
+
+    @Override
+    public String toString() {
+        return "Mote [id=" + id + ", power=" + power + ", isGateway=" + isGateway + "]";
     }
 }

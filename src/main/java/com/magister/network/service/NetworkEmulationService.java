@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,7 @@ public class NetworkEmulationService {
     @Autowired
     private NetworkCallableFactory factory;
 
+    @Transactional
     public void emulateNetwork(Network network) {
         Future<Boolean> future = networks.get(network.getId());
         // cancel emulation if it is already running
@@ -46,6 +49,7 @@ public class NetworkEmulationService {
      * Starts network emulation.
      * The method should be called by {@link ContextRefreshedListener} on application startup.
      */
+    @Transactional
     public void emulateNetworks() {
         LOG.info("Loading sensor networks definitions from database");
         // when context reloaded and application is started

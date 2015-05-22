@@ -55,8 +55,9 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <!-- Highcharts -->
-    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <!-- Highcharts 
+    <script src="http://code.highcharts.com/highcharts.js"></script>-->
+    <script src="/js/highcharts.js"></script>
     <script src="http://code.highcharttable.org/master/jquery.highchartTable-min.js"></script>
     <script type="text/javascript">
 					$(function() {
