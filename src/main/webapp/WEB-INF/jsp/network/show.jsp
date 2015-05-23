@@ -38,6 +38,7 @@
                             <th>Type</th>
                             <th>Delay(seconds)</th>
                             <th>Gateway</th>
+                            <th>Alive</th>
                         </tr>
                     </thead>
 
@@ -51,6 +52,7 @@
                                 <td>${mote.moteType}</td>
                                 <td>${mote.delay}</td>
                                 <td>${mote.gateway}</td>
+                                <td>${mote.alive}</td>
                             </tr>
                         </c:forEach>
                     </tbody>

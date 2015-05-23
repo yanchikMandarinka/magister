@@ -2,8 +2,10 @@ package com.magister.db;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -73,7 +75,7 @@ public class DatabasePopulator {
         Random random = new Random();
 
         Mote mote = new Mote();
-        mote.setPower(random.nextInt(9999));
+        mote.setPower(random.nextInt(1000));
         mote.setLatitude(-90 + random.nextInt(180));
         mote.setLongtitude(-180 + random.nextInt(360));
         mote.setMoteType(moteType);
@@ -83,9 +85,9 @@ public class DatabasePopulator {
         return mote;
     }
 
-    private List<SensorData> createRandomSensorData(Mote mote, long runtime, long current) {
+    private Set<SensorData> createRandomSensorData(Mote mote, long runtime, long current) {
         Random random = new Random();
-        List<SensorData> data = new ArrayList<>();
+        Set<SensorData> data = new HashSet<>();
         long points = (runtime * 60) / mote.getDelay();
         for (int i = 0; i < points; ++i) {
             SensorData sensorData = new SensorData();

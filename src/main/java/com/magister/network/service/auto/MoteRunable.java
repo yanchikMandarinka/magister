@@ -16,11 +16,9 @@ import com.magister.db.domain.SensorData;
 import com.magister.db.repository.MoteRepository;
 import com.magister.db.repository.SensorDataRepository;
 
-public class GatewayRunable implements Runnable {
+public class MoteRunable implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GatewayRunable.class);
-
-    private Mote mote;
+    private static final Logger LOG = LoggerFactory.getLogger(MoteRunable.class);
 
     @Autowired
     private MoteRepository moteRepository;
@@ -31,7 +29,9 @@ public class GatewayRunable implements Runnable {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public GatewayRunable(Mote mote) {
+    private Mote mote;
+
+    public MoteRunable(Mote mote) {
         this.mote = mote;
     }
 
@@ -39,24 +39,29 @@ public class GatewayRunable implements Runnable {
     @Override
     public void run() {
         LOG.info("{} awakened", mote);
-        if (!Thread.currentThread().isInterrupted()) {
+        if (!Thread.currentThread().isInterrupted() && mote.isAlive()) {
             try {
                 mote = entityManager.merge(mote);
                 Random random = new Random();
-                // 1) save sensor data
-                // 2) assume gateway connected to downstream
-                // and don't lose power
 
                 SensorData sensorData = new SensorData();
                 sensorData.setTimestamp(new Timestamp(System.currentTimeMillis()));
                 sensorData.setValue(String.valueOf(random.nextInt(100)));
 
-                mote.setPower(mote.getPower() - 1);
+                if (!mote.isGateway()) {
+                    // assume gateway doesn't lose power
+                    mote.setPower(mote.getPower() - 1);
+                }
+
                 mote.getMetering().add(sensorData);
+
+                // update mote state in database
                 moteRepository.save(mote);
             } catch (Throwable t) {
                 LOG.error("Exception during sensor wake up", t);
             }
+        } else {
+            LOG.info("{} interrupted", mote);
         }
     }
 

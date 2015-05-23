@@ -1,11 +1,15 @@
 package com.magister.db.domain;
 
 import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class SensorData {
@@ -15,8 +19,9 @@ public class SensorData {
     @Column(name = "id", nullable = false)
     private long id;
 
+    @Temporal(TemporalType.TIME)
     @Column(name = "timestamp")
-    private Timestamp timestamp;
+    private Date timestamp;
 
     @Column(name = "value")
     private String value;
@@ -29,7 +34,7 @@ public class SensorData {
         this.id = id;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

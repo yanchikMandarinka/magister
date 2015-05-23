@@ -14,8 +14,8 @@ import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
 import com.magister.network.service.NetworkCallableFactory;
 import com.magister.network.service.auto.AutomaticNetwork;
-import com.magister.network.service.auto.GatewayRunable;
-import com.magister.network.service.auto.NodeRunnableFactory;
+import com.magister.network.service.auto.MoteRunable;
+import com.magister.network.service.auto.MoteRunnableFactory;
 
 @SpringBootApplication
 public class Application {
@@ -49,20 +49,20 @@ public class Application {
     }
 
     @Bean
-    public NodeRunnableFactory nodeRunnableFactory() {
-        return new NodeRunnableFactory() {
+    public MoteRunnableFactory nodeRunnableFactory() {
+        return new MoteRunnableFactory() {
 
             @Override
-            public Runnable createGatewayRunnable(Mote mote) {
-                return nodeRunnable(mote);
+            public Runnable createMoteRunnable(Mote mote) {
+                return moteRunnable(mote);
             }
         };
     }
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public Runnable nodeRunnable(Mote mote) {
-        return new GatewayRunable(mote);
+    public Runnable moteRunnable(Mote mote) {
+        return new MoteRunable(mote);
     }
 
     @Bean

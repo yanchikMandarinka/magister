@@ -1,6 +1,6 @@
 package com.magister.db.domain;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 public class Mote {
@@ -45,7 +46,8 @@ public class Mote {
     private boolean isGateway;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<SensorData> metering;
+    @OrderBy("timestamp")
+    private Set<SensorData> metering;
 
     public long getId() {
         return id;
@@ -63,8 +65,13 @@ public class Mote {
         this.power = power;
     }
 
+    /**
+     * Mote considered as alive if it has power
+     * or it is gateway (unlimited power)
+     * @return
+     */
     public boolean isAlive() {
-        return power > 0;
+        return (power > 0 || isGateway);
     }
 
     public double getLatitude() {
@@ -117,11 +124,11 @@ public class Mote {
         this.isGateway = isGateway;
     }
 
-    public List<SensorData> getMetering() {
+    public Set<SensorData> getMetering() {
         return metering;
     }
 
-    public void setMetering(List<SensorData> metering) {
+    public void setMetering(Set<SensorData> metering) {
         this.metering = metering;
     }
 

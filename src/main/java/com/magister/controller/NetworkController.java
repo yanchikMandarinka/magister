@@ -43,6 +43,11 @@ public class NetworkController {
         return new ModelAndView("network/create", "command", new Network());
     }
 
+    @RequestMapping("/edit")
+    public ModelAndView editNetwork() {
+        return new ModelAndView("network/edit", "command", new Network());
+    }
+
     @RequestMapping("/save") //TODO: can it perform network update too?
     public String createNetwork(Network network) {
         Assert.hasText(network.getName());
