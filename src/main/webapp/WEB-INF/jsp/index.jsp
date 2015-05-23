@@ -12,19 +12,19 @@
 
 <style type="text/css">
 .carousel-inner {
-    height: 400px;
+	height: 400px;
 }
 
 .carousel-inner .item {
-    overflow: hidden;
-    max-width: 100%;
-    max-height: 100%;
+	overflow: hidden;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .carousel-inner .item img {
-    width: 100%;
-    height: 400px;
-    max-height: 400px;
+	width: 100%;
+	height: 400px;
+	max-height: 400px;
 }
 </style>
 
@@ -79,11 +79,14 @@
                 class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
             </a> -->
         </div>
-        <hr/>
+        <hr />
         <div class="panel panel-primary">
             <div class="panel-heading">Links</div>
             <div class="panel-body">
-                <a href="/network/list">Networks list</a>
+                <ul>
+                    <li><a href="/network/list">Networks list</a></li>
+                    <li><a href="/mote/list">Mote list</a></li>
+                </ul>
             </div>
         </div>
 

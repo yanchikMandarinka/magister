@@ -1,5 +1,7 @@
 package com.magister.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,5 +36,35 @@ public class MoteController {
         Mote mote = moteRepository.findOne(id);
         modelAndView.addObject("mote", mote);
         return modelAndView;
+    }
+
+    @RequestMapping("/burn")
+    public String burn(long id, HttpServletRequest request) {
+        Mote mote = moteRepository.findOne(id);
+        mote.setBroken(true);
+        moteRepository.save(mote);
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+    }
+
+    @RequestMapping("/repair")
+    public String repair(long id, HttpServletRequest request) {
+        Mote mote = moteRepository.findOne(id);
+        mote.setBroken(false);
+        moteRepository.save(mote);
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+    }
+
+    @RequestMapping("/charge")
+    public String charge(long id, HttpServletRequest request) {
+        Mote mote = moteRepository.findOne(id);
+        mote.setPower(mote.getPower() + 100);
+        moteRepository.save(mote);
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

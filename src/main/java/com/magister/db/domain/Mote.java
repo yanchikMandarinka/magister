@@ -50,6 +50,9 @@ public class Mote {
     @OrderBy("timestamp")
     private Set<SensorData> metering = new HashSet<>();
 
+    @Column(name="mote_broken")
+    private boolean broken;
+
     public long getId() {
         return id;
     }
@@ -72,7 +75,8 @@ public class Mote {
      * @return
      */
     public boolean isAlive() {
-        return (power > 0 || isGateway);
+        boolean hasPower = (power > 0 || isGateway);
+        return hasPower && !broken;
     }
 
     public double getLatitude() {
@@ -133,15 +137,17 @@ public class Mote {
         this.metering = metering;
     }
 
-//    public void addSensorData(SensorData sensorData) {
-//        this.metering.add(sensorData);
-//        if (sensorData.getMote() != this) {
-//            sensorData.setMote(this);
-//        }
-//    }
+    public boolean isBroken() {
+        return broken;
+    }
+
+    public void setBroken(boolean broken) {
+        this.broken = broken;
+    }
 
     @Override
     public String toString() {
-        return "Mote [id=" + id + ", power=" + power + ", isGateway=" + isGateway + "]";
+        return "Mote [id=" + id + ", power=" + power
+                + ", isGateway=" + isGateway + ", isBroken=" + isBroken() + "]";
     }
 }
