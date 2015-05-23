@@ -11,6 +11,7 @@
                     <th>Type</th>
                     <th>Delay(seconds)</th>
                     <th>Gateway</th>
+                    <th>Broken</th>
                     <th>Alive</th>
                     <th>Actions</th>
                 </tr>
@@ -26,6 +27,7 @@
                         <td>${mote.moteType}</td>
                         <td>${mote.delay}</td>
                         <td>${mote.gateway}</td>
+                        <td>${mote.broken}</td>
                         <td>${mote.alive}</td>
                         <td>
                         <a href="/mote/burn?id=${mote.id}"><span class="glyphicon glyphicon-fire text-danger" aria-hidden="true"></span></a>
