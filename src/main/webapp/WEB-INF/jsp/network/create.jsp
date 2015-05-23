@@ -86,10 +86,10 @@
 													+     '<option value="LIGHTNESS">LIGHTNESS</option>'
 													+ '</select>'
 													+ '<input id="motesXXX.delay" name="motes[XXX].delay" placeholder="Delay(integer)" name="delay" class="form-control" type="text" />'
-													+ '<label class="checkbox-inline" for="isGateway">'
-								                    +   '<input type="checkbox" name="motesXXX.gateway"/>isGateway'
+													+ '<label class="checkbox-inline" for="motesXXX.gateway">'
+								                    +   '<input type="checkbox" id="motesXXX.gateway" name="motesXXX.gateway"/>isGateway'
 								                    + '</label>'
-								                    + '<input type="button" class="btn btn-danger" value="Remove" onclick="alert(/Unsupported yet/)"/>'
+								                    //+ '<input type="button" class="btn btn-danger" value="Remove" onclick="alert(/Unsupported yet/)"/>'
 													+ '</div>';
 											//var mote = $.template(tpl);
 											tpl = tpl.replace(/XXX/gi, counter);

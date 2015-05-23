@@ -11,6 +11,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/network/list">Networks</a></li>
+                <li><a href="/mote/list">Motes</a></li>
                 <!--  <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li> -->
             </ul>

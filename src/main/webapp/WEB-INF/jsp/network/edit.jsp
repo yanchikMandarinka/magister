@@ -46,6 +46,9 @@
                         <form:input type="text" class="form-control" id="name" placeholder="Enter network name" path="name" />
                     </div>
                     <div class="form-group">
+                        <form:checkbox path="enabled" label="enabled"/>
+                    </div>
+                    <div class="form-group">
                         <label for="name">Network mode</label>
                         <form:select class="form-control" id="mode" path="mode">
                             <form:options items="${Mode.values}" />

@@ -37,6 +37,9 @@ public class Network {
     @Enumerated(EnumType.STRING)
     private Mode mode;
 
+    @Column(name = "enabled")
+    private boolean enabled;
+
     public long getId() {
         return id;
     }
@@ -69,8 +72,16 @@ public class Network {
         this.mode = mode;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
-        return "Network [id=" + id + ", name=" + name + ", mode=" + mode + "]";
+        return "Network [id=" + id + ", name=" + name + ", mode=" + mode + ", enabled=" + enabled + "]";
     }
 }

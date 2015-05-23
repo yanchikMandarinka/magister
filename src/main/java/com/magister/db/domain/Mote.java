@@ -1,5 +1,6 @@
 package com.magister.db.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -47,7 +48,7 @@ public class Mote {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("timestamp")
-    private Set<SensorData> metering;
+    private Set<SensorData> metering = new HashSet<>();
 
     public long getId() {
         return id;

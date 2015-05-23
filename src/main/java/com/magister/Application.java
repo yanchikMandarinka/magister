@@ -6,6 +6,7 @@ import org.h2.server.web.WebServlet;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.ErrorMvcAutoConfiguration;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
@@ -17,7 +18,7 @@ import com.magister.network.service.auto.AutomaticNetwork;
 import com.magister.network.service.auto.MoteRunable;
 import com.magister.network.service.auto.MoteRunnableFactory;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class Application {
 
     @Bean
@@ -33,7 +34,7 @@ public class Application {
 
             @Override
             public Callable<Boolean> createNetworkCallable(Network network) {
-                switch(network.getMode()) {
+                switch (network.getMode()) {
                     case AUTOMATIC: {
                         return automaticNetwork(network);
                     }

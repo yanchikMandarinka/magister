@@ -25,7 +25,7 @@ public class NetworkController {
     public String networks(Model model) {
         Iterable<Network> networks = networkRepository.findAll();
         model.addAttribute("networks", networks);
-        return "network/network";
+        return "network/list";
     }
 
     @RequestMapping("/show")
@@ -44,18 +44,34 @@ public class NetworkController {
     }
 
     @RequestMapping("/edit")
-    public ModelAndView editNetwork() {
-        return new ModelAndView("network/edit", "command", new Network());
+    public ModelAndView editNetwork(long id) {
+        Network network = networkRepository.findOne(id);
+        return new ModelAndView("network/edit", "command", network);
     }
 
-    @RequestMapping("/save") //TODO: can it perform network update too?
+    @RequestMapping("/save")
     public String createNetwork(Network network) {
-        Assert.hasText(network.getName());
+        Assert.hasText("Network must has a name", network.getName());
 
         // when we save new network we need to start/restart it's emulation
         networkRepository.save(network);
         sensorNetworkService.emulateNetwork(network);
         return "redirect:list";
+    }
+
+    @RequestMapping("/remove")
+    public String removeNetwork(long id) {
+        Network network = networkRepository.findOne(id);
+
+        sensorNetworkService.cancelEmulation(network);
+        networkRepository.delete(network);
+        return "redirect:list";
+    }
+
+    @RequestMapping("/chart")
+    public ModelAndView chartNetwork(long id) {
+        Network network = networkRepository.findOne(id);
+        return new ModelAndView("network/chart", "network", network);
     }
 
 }

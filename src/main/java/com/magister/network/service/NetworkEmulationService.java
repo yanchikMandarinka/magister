@@ -34,15 +34,20 @@ public class NetworkEmulationService {
 
     @Transactional
     public void emulateNetwork(Network network) {
+        cancelEmulation(network);
+
+        long networkId = network.getId();
+        Network reloadedNetwork = networkRepository.findOne(networkId);
+        emulateNetworkInternal(reloadedNetwork);
+    }
+
+    @Transactional
+    public void cancelEmulation(Network network) {
         Future<Boolean> future = networks.get(network.getId());
         // cancel emulation if it is already running
         if (future != null) {
             future.cancel(true);
         }
-
-        long networkId = network.getId();
-        Network reloadedNetwork = networkRepository.findOne(networkId);
-        emulateNetworkInternal(reloadedNetwork);
     }
 
     /**
