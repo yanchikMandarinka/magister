@@ -49,8 +49,10 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Network mode</label>
+                        
+                        
                         <form:select class="form-control" id="mode" path="mode">
-                            <form:options items="${Mode.values}" />
+                            <option selected value="AUTOMATIC">AUTOMATIC</option>
                         </form:select>
                     </div>
                     <div class="form-group">
@@ -90,7 +92,7 @@
 													+ '</select>'
 													+ '<input id="motesXXX.delay" name="motes[XXX].delay" placeholder="Delay(integer)" name="delay" class="form-control" type="text" />'
 													+ '<label class="checkbox-inline" for="motesXXX.gateway">'
-								                    +   '<input type="checkbox" id="motesXXX.gateway" name="motesXXX.gateway"/>isGateway'
+								                    +   '<input type="checkbox" id="motesXXX.gateway" name="motes[XXX].gateway"/>isGateway'
 								                    + '</label>'
 								                    //+ '<input type="button" class="btn btn-danger" value="Remove" onclick="alert(/Unsupported yet/)"/>'
 													+ '</div>';

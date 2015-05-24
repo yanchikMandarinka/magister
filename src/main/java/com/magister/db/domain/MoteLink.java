@@ -16,10 +16,10 @@ public class MoteLink {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Mote source;
 
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Mote target;
 
     public long getId() {
@@ -45,4 +45,11 @@ public class MoteLink {
     public void setTarget(Mote target) {
         this.target = target;
     }
+
+    @Override
+    public String toString() {
+        return "MoteLink [id=" + id + ", source=" + source + ", target=" + target + "]";
+    }
+
+
 }

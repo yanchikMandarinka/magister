@@ -1,5 +1,6 @@
 package com.magister.db.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,7 +34,7 @@ public class Network {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="network_id", referencedColumnName="network_id")
-    private List<Mote> motes;
+    private List<Mote> motes = new ArrayList<>();
 
     @Column(name = "network_name", nullable = false)
     private String name;
@@ -50,7 +51,7 @@ public class Network {
     private Status status = Status.WORKING;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Topology topology;
+    private Topology topology = new Topology();
 
     public long getId() {
         return id;
@@ -98,6 +99,14 @@ public class Network {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Topology getTopology() {
+        return topology;
+    }
+
+    public void setTopology(Topology topology) {
+        this.topology = topology;
     }
 
     @Override

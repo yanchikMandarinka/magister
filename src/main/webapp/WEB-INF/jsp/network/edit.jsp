@@ -2,6 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page import="com.magister.db.domain.Network.Mode" %>
+<%@ page import="com.magister.db.domain.MoteType" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -38,9 +39,10 @@
     <div class="container">
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Create network</div>
+            <div class="panel-heading">Edit network</div>
             <div class="panel-body">
                 <form:form action="/network/save">
+                    <form:hidden path="id"/>
                     <div class="form-group">
                         <label for="name">Network name</label>
                         <form:input type="text" class="form-control" id="name" placeholder="Enter network name" path="name" />
@@ -54,10 +56,33 @@
                             <form:options items="${Mode.values}" />
                         </form:select>
                     </div>
-                    <div class="form-group">
-                        <button id="addMote" type="button" class="btn btn-success">Add mote</button>
+                    <h3>Motes</h3>
+                    <c:forEach var="mote" items="${command.motes}" varStatus="status">
+                         <div class="form-group form-inline">
+                            <form:label path="motes[${status.index}].id">Mote Id</form:label>
+                            <form:input path="motes[${status.index}].id" class="form-control" disabled="true"/>
+                           
+                            <form:hidden path="motes[${status.index}].power" class="form-control" />
+                            <form:hidden path="motes[${status.index}].latitude" class="form-control" />
+                            <form:hidden path="motes[${status.index}].longtitude" class="form-control" />
+                            <form:hidden path="motes[${status.index}].moteType" class="form-control"/>
+                            <form:hidden path="motes[${status.index}].delay" class="form-control" />
+                            
+                            <label class="checkbox-inline" for="isGateway" >
+                                <form:checkbox path="motes[${status.index}].gateway"/>isGateway
+                            </label>
+                        </div>
+                    </c:forEach>
+
+                    <h3>Mote links<button id="addMoteLink" type="button" class="btn btn-success">Add mote link</button></h3>
+                    <div id="links">
+                        <c:forEach var="link" items="${command.topology.links}" varStatus="status">
+                            <div class="form-group form-inline">
+                                <form:input path="topology.links[${status.index}].id" class="form-control" />
+                                <form:input path="topology.links[${status.index}].id" class="form-control" />
+                             </div>
+                        </c:forEach>
                     </div>
-                    <div id="moteContainer"></div>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form:form>
             </div>
@@ -72,6 +97,7 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+<%--
     <script type="text/javascript">
 					$(function() {
 						var counter = 0;
@@ -103,5 +129,6 @@
 
 					});
 				</script>
+                 --%>
 </body>
 </html>

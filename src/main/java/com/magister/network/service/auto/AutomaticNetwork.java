@@ -2,7 +2,6 @@ package com.magister.network.service.auto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -16,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
 import com.magister.db.repository.MoteRepository;
+import com.magister.db.repository.NetworkRepository;
+import com.magister.manager.AutomaticNetworkManager;
 
 public class AutomaticNetwork implements Callable<Boolean> {
 
@@ -25,7 +26,13 @@ public class AutomaticNetwork implements Callable<Boolean> {
     private MoteRepository moteRepository;
 
     @Autowired
+    private NetworkRepository networkRepository;
+
+    @Autowired
     private MoteRunnableFactory moteRunnableFactory;
+
+    @Autowired
+    private AutomaticNetworkManager manager;
 
     private final Network network;
     private final ScheduledExecutorService timer;
@@ -38,7 +45,11 @@ public class AutomaticNetwork implements Callable<Boolean> {
     @Override
     public Boolean call() throws Exception {
         try {
+            manager.prepareNetwork(network);
             return callInternal();
+        } catch (Exception e) {
+            LOG.error("Error during network emulation {}", network, e);
+            throw e;
         } finally {
             timer.shutdown();
         }
@@ -48,30 +59,7 @@ public class AutomaticNetwork implements Callable<Boolean> {
      * @return true, if nobody left alive in network, false otherwise
      */
     public Boolean callInternal() throws Exception {
-        List<Mote> motes = network.getMotes();
-
-        if (motes.size() == 0) {
-            LOG.warn("Network {} has no motes and will not be emulated", network);
-            return true;
-        }
-
-        // try to find any gateway node
-        boolean gatewayFound = false;
-        for (Mote mote : motes) {
-            if (mote.isGateway()) {
-                gatewayFound = true;
-                break;
-            }
-        }
-
-        // if we didn't find one, pick random
-        if (!gatewayFound) {
-            LOG.warn("Network {} has no gateway, marking random node as gateway", network);
-            Random random = new Random();
-            Mote gateway = motes.get(random.nextInt(motes.size()));
-            gateway.setGateway(true);
-            moteRepository.save(gateway);
-        }
+        final List<Mote> motes = network.getMotes();
 
         if (Thread.currentThread().isInterrupted()) {
             LOG.info("Network {} emulation was interrupted", network);

@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -31,6 +33,9 @@ public class NetworkEmulationService {
 
     @Autowired
     private NetworkCallableFactory factory;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Transactional
     public void emulateNetwork(Network network) {
@@ -67,6 +72,8 @@ public class NetworkEmulationService {
 
     private void emulateNetworkInternal(Network network) {
         LOG.info("Starting network emulation for {}", network);
+
+        entityManager.detach(network);
         Callable<Boolean> networkCallable = factory.createNetworkCallable(network);
         Future<Boolean> future = executor.submit(networkCallable);
         networks.put(network.getId(), future);

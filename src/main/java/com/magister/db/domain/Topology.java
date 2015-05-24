@@ -1,8 +1,7 @@
 package com.magister.db.domain;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Topology {
@@ -21,14 +19,8 @@ public class Topology {
     @Column(name = "id", nullable = false)
     private long id;
 
-    @OneToOne(mappedBy = "topology")
-    private Network network;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Mote> gateways = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<MoteLink> links = new HashSet<>();
+    private List<MoteLink> links = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -38,27 +30,11 @@ public class Topology {
         this.id = id;
     }
 
-    public Network getNetwork() {
-        return network;
-    }
-
-    public void setNetwork(Network network) {
-        this.network = network;
-    }
-
-    public Set<Mote> getGateways() {
-        return gateways;
-    }
-
-    public void setGateways(Set<Mote> gateways) {
-        this.gateways = gateways;
-    }
-
-    public Set<MoteLink> getLinks() {
+    public List<MoteLink> getLinks() {
         return links;
     }
 
-    public void setLinks(Set<MoteLink> links) {
+    public void setLinks(List<MoteLink> links) {
         this.links = links;
     }
 
