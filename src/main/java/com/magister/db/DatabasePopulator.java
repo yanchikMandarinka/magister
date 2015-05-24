@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.magister.db.domain.Mote;
-import com.magister.db.domain.Mote.MoteType;
+import com.magister.db.domain.MoteType;
 import com.magister.db.domain.Network;
 import com.magister.db.domain.Network.Mode;
 import com.magister.db.domain.SensorData;

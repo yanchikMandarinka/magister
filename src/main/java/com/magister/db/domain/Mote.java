@@ -18,10 +18,6 @@ import javax.persistence.OrderBy;
 @Entity
 public class Mote {
 
-    public static enum MoteType {
-        TEMPERATURE, LIGHTNESS
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

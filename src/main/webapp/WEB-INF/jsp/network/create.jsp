@@ -2,6 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page import="com.magister.db.domain.Network.Mode" %>
+<%@ page import="com.magister.db.domain.MoteType" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +41,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Create network</div>
             <div class="panel-body">
+            
                 <form:form action="/network/save">
                     <div class="form-group">
                         <label for="name">Network name</label>
@@ -82,8 +84,9 @@
 													+ '<input id="motesXXX.latitude" name="motes[XXX].latitude" placeholder="Latitude(double)" name="latitude" class="form-control" type="text"/>'
 													+ '<input id="motesXXX.longtitude" name="motes[XXX].longtitude" placeholder="Longtitude(double)" name="longtitude" class="form-control" type="text"/>'
 													+ '<select id="motesXXX.moteType" name="motes[XXX].moteType" name="moteType" class="form-control">'
-													+     '<option value="TEMPERATURE">TEMPERATURE</option>'
-													+     '<option value="LIGHTNESS">LIGHTNESS</option>'
+													+     '<c:forEach items="${MoteType.values()}" var="enumValue">'
+													+         '<option value="${enumValue}">${enumValue}</option>'
+												    +     '</c:forEach>'
 													+ '</select>'
 													+ '<input id="motesXXX.delay" name="motes[XXX].delay" placeholder="Delay(integer)" name="delay" class="form-control" type="text" />'
 													+ '<label class="checkbox-inline" for="motesXXX.gateway">'

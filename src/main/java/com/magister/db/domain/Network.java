@@ -13,12 +13,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Network {
 
     public static enum Mode {
         AUTOMATIC, MANUAL;
+    }
+
+    public static enum Status { //TODO: maybe disable shoul go here too?
+        WORKING, NO_GATEWAYS;
     }
 
     @Id
@@ -38,7 +43,14 @@ public class Network {
     private Mode mode;
 
     @Column(name = "enabled")
-    private boolean enabled;
+    private boolean enabled = true;
+
+    @Column(name = "network_status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.WORKING;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Topology topology;
 
     public long getId() {
         return id;
@@ -80,8 +92,17 @@ public class Network {
         this.enabled = enabled;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Network [id=" + id + ", name=" + name + ", mode=" + mode + ", enabled=" + enabled + "]";
+        return "Network [id=" + id + ", name=" + name + ", mode=" + mode
+                + ", enabled=" + enabled + ", status=" + status + "]";
     }
 }
