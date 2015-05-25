@@ -3,9 +3,9 @@ package com.magister.network.service.auto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -14,38 +14,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
-import com.magister.db.repository.MoteRepository;
-import com.magister.db.repository.NetworkRepository;
-import com.magister.manager.AutomaticNetworkManager;
+import com.magister.db.domain.Network.Status;
 
 public class AutomaticNetwork implements Callable<Boolean> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AutomaticNetwork.class);
 
     @Autowired
-    private MoteRepository moteRepository;
-
-    @Autowired
-    private NetworkRepository networkRepository;
-
-    @Autowired
     private MoteRunnableFactory moteRunnableFactory;
-
-    @Autowired
-    private AutomaticNetworkManager manager;
 
     private final Network network;
     private final ScheduledExecutorService timer;
 
     public AutomaticNetwork(Network network) {
         this.network = network;
-        this.timer = Executors.newScheduledThreadPool(4);
+        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4);
+        scheduledThreadPoolExecutor.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
+        scheduledThreadPoolExecutor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
+        this.timer = scheduledThreadPoolExecutor;
     }
 
     @Override
     public Boolean call() throws Exception {
         try {
-            manager.prepareNetwork(network);
             return callInternal();
         } catch (Exception e) {
             LOG.error("Error during network emulation {}", network, e);
@@ -56,16 +47,30 @@ public class AutomaticNetwork implements Callable<Boolean> {
     }
 
     /**
-     * @return true, if nobody left alive in network, false otherwise
+     * @return true, if network couldn't be emulated, false otherwise
      */
     public Boolean callInternal() throws Exception {
-        final List<Mote> motes = network.getMotes();
+        if (!network.isEnabled()) {
+            LOG.warn("{} is disabled and will not be emulated", network);
+            return true;
+        }
+
+        if (network.getStatus() == Status.NO_LIVE_MOTES) {
+            LOG.warn("Network {} has no motes and will not be emulated", network);
+            return true;
+        }
+
+        if (network.getStatus() == Status.NO_LIVE_GATEWAYS) {
+            LOG.warn("Network {} has no live gateway and will not be emulated", network);
+            return true;
+        }
 
         if (Thread.currentThread().isInterrupted()) {
             LOG.info("Network {} emulation was interrupted", network);
             return false;
         }
 
+        List<Mote> motes = network.getMotes();
         List<ScheduledFuture<?>> futures = new ArrayList<>();
 
         for (Mote mote : motes) {
@@ -86,6 +91,11 @@ public class AutomaticNetwork implements Callable<Boolean> {
             return true;
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
+        } finally {
+            // cancel all schedulled tasks
+            for (ScheduledFuture<?> scheduledFuture : futures) {
+                scheduledFuture.cancel(true);
+            }
         }
 
         return false;

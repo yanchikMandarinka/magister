@@ -20,6 +20,5 @@ public class ContextRefreshedListener implements ApplicationListener<ContextRefr
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         populator.populateDatabase();
-        service.emulateNetworks();
     }
 }

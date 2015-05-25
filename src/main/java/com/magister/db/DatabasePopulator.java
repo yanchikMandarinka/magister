@@ -16,13 +16,14 @@ import com.magister.db.domain.MoteType;
 import com.magister.db.domain.Network;
 import com.magister.db.domain.Network.Mode;
 import com.magister.db.domain.SensorData;
-import com.magister.db.repository.NetworkRepository;
+import com.magister.manager.NetworkManager;
 
 @Component
 public class DatabasePopulator {
 
     @Autowired
-    private NetworkRepository networkRepository;
+    private NetworkManager networkManager;
+
 
     @Transactional
     public void populateDatabase() {
@@ -31,6 +32,7 @@ public class DatabasePopulator {
         Network network = new Network();
         network.setName("Laboratory 1");
         network.setMode(Mode.AUTOMATIC);
+        network.setEnabled(false);
 
         List<Mote> motes = new ArrayList<>();
         motes.add(createMote(MoteType.TEMPERATURE, false));
@@ -50,7 +52,7 @@ public class DatabasePopulator {
         }
 
         network.setMotes(motes);
-        networkRepository.save(network);
+        networkManager.saveOrUpdateNetwork(network);
 
         Network network2 = new Network();
         network2.setName("Laboratory 2");
@@ -68,7 +70,7 @@ public class DatabasePopulator {
         }
 
         network2.setMotes(motes2);
-        networkRepository.save(network2);
+        networkManager.saveOrUpdateNetwork(network2);
     }
 
     private Mote createMote(MoteType moteType, boolean gateway) {

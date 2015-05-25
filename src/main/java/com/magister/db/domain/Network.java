@@ -12,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -23,8 +22,8 @@ public class Network {
         AUTOMATIC, MANUAL;
     }
 
-    public static enum Status { //TODO: maybe disable shoul go here too?
-        WORKING, NO_GATEWAYS;
+    public static enum Status { //TODO: maybe disable should go here too?
+        WORKING, NO_LIVE_GATEWAYS, NO_LIVE_MOTES;
     }
 
     @Id
@@ -33,7 +32,6 @@ public class Network {
     private long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="network_id", referencedColumnName="network_id")
     private List<Mote> motes = new ArrayList<>();
 
     @Column(name = "network_name", nullable = false)

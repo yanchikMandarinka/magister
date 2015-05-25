@@ -39,9 +39,14 @@ public class MoteRunable implements Runnable {
     @Override
     public void run() {
         LOG.info("{} awakened", mote);
+        if (Thread.currentThread().isInterrupted()) {
+            LOG.info("{} interrupted", mote);
+            return;
+        }
+
         try {
             mote = entityManager.find(Mote.class, mote.getId());
-            if (!Thread.currentThread().isInterrupted() && mote.isAlive()) {
+            if (mote.isAlive()) {
                 Random random = new Random();
 
                 SensorData sensorData = new SensorData();
@@ -57,8 +62,6 @@ public class MoteRunable implements Runnable {
 
                 // update mote state in database
                 moteRepository.save(mote);
-            } else {
-                LOG.info("{} interrupted", mote);
             }
         } catch (Throwable t) {
             LOG.error("Exception during sensor wake up", t);

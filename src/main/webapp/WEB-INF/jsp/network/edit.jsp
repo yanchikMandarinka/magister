@@ -60,7 +60,7 @@
                     <c:forEach var="mote" items="${command.motes}" varStatus="status">
                          <div class="form-group form-inline">
                             <form:label path="motes[${status.index}].id">Mote Id</form:label>
-                            <form:input path="motes[${status.index}].id" class="form-control" disabled="true"/>
+                            <form:input path="motes[${status.index}].id" class="form-control"/>
                            
                             <form:hidden path="motes[${status.index}].power" class="form-control" />
                             <form:hidden path="motes[${status.index}].latitude" class="form-control" />
@@ -78,12 +78,16 @@
                     <div id="links">
                         <c:forEach var="link" items="${command.topology.links}" varStatus="status">
                             <div class="form-group form-inline">
+                                <form:label path="topology.links[${status.index}].id">Link id</form:label>
                                 <form:input path="topology.links[${status.index}].id" class="form-control" />
-                                <form:input path="topology.links[${status.index}].id" class="form-control" />
+                                <form:label path="topology.links[${status.index}].source.id">Source</form:label>
+                                <form:input path="topology.links[${status.index}].source.id" class="form-control" />
+                                <form:label path="topology.links[${status.index}].target.id">Target</form:label>
+                                <form:input path="topology.links[${status.index}].target.id" class="form-control" />
                              </div>
                         </c:forEach>
                     </div>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form:form>
             </div>
         </div>
