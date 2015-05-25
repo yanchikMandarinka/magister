@@ -51,7 +51,7 @@ public class MoteController {
         moteRepository.save(mote);
 
         Network network = networkRepository.findByMotes(mote);
-        networkEmulationService.emulateNetwork(network);
+        networkEmulationService.emulateNetwork(network, true);
 
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
@@ -65,7 +65,7 @@ public class MoteController {
         moteRepository.save(mote);
 
         Network network = networkRepository.findByMotes(mote);
-        networkEmulationService.emulateNetwork(network);
+        networkEmulationService.emulateNetwork(network, true);
 
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;

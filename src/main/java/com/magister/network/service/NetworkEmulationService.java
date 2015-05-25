@@ -41,12 +41,12 @@ public class NetworkEmulationService {
     private ManualNetworkManager manualNetworkManager;
 
     @Transactional
-    public void emulateNetwork(Network network) {
+    public void emulateNetwork(Network network, boolean reorganize) {
         cancelEmulation(network);
 
-        //TODO: assuming that we call #emulateNetwork after #saveNetwork
-        // we will save network twice: first in saveNetwork and second after update
-        reorganizeTopology(network);
+        if (reorganize) {
+            reorganizeTopology(network);
+        }
 
         emulateNetworkInternal(network);
     }

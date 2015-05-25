@@ -48,9 +48,13 @@ public class NetworkManager {
         }
         Assert.notNull(gateway, "Network must has at least ONE gateway");
 
+        // TODO: maybe assert that it is working?
+        // and working is assumed for manual only when all sensors are reachable?
+        networkEmulationService.reorganizeTopology(network);
+
         // when we save new network we need to start/restart it's emulation
         networkRepository.save(network);
-        networkEmulationService.emulateNetwork(network);
+        networkEmulationService.emulateNetwork(network, false);
     }
 
     @Transactional

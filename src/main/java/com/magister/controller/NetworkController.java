@@ -112,4 +112,10 @@ public class NetworkController {
         return new ModelAndView("network/chart", "network", network);
     }
 
+    @RequestMapping("/topology")
+    public ModelAndView topologyNetwork(long id) {
+        Network network = networkRepository.findOne(id);
+        return new ModelAndView("network/topology", "network", network);
+    }
+
 }

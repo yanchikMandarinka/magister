@@ -52,6 +52,7 @@
                                 <a href="/network/show?id=${network.id}"><span class="glyphicon glyphicon-eye-open text-success" aria-hidden="true"></span></a>
                                 <a href="/network/edit?id=${network.id}"><span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span></a>
                                 <a href="/network/chart?id=${network.id}"><span class="glyphicon glyphicon-picture text-primary" aria-hidden="true"></span></a>
+                                <a href="/network/topology?id=${network.id}"><span class="glyphicon glyphicon-star text-warning" aria-hidden="true"></span></a>
                                 <a href="/network/remove?id=${network.id}"><span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span></a>
                                 </td>
                             </tr>

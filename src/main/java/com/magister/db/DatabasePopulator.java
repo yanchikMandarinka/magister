@@ -44,7 +44,7 @@ public class DatabasePopulator {
         motes.add(createMote(MoteType.TEMPERATURE, true));
         motes.add(createMote(MoteType.LIGHTNESS, false));
         motes.add(createMote(MoteType.TEMPERATURE, false));
-        motes.add(createMote(MoteType.TEMPERATURE, true));
+        motes.add(createMote(MoteType.TEMPERATURE, false));
 
         // network was running for N minutes
         long runtime = 5 + random.nextInt(10);// from 5 to 15 minutes
