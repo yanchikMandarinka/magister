@@ -1,4 +1,4 @@
-package com.magister.network.service.auto;
+package com.magister.network.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,25 +11,21 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
 import com.magister.db.domain.Network.Status;
-import com.magister.network.service.MoteRunnableFactory;
 
-public class AutomaticNetwork implements Callable<Boolean> {
+public class NetworkCallable implements Callable<Boolean> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AutomaticNetwork.class);
+    private static final Logger LOG = LoggerFactory.getLogger(NetworkCallable.class);
 
     @Autowired
-    @Qualifier("moteRunnableFactory")
     private MoteRunnableFactory moteRunnableFactory;
 
     private final Network network;
     private final ScheduledExecutorService timer;
 
-    public AutomaticNetwork(Network network) {
+    public NetworkCallable(Network network) {
         this.network = network;
         ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(4);
         scheduledThreadPoolExecutor.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);

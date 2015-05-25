@@ -1,4 +1,4 @@
-package com.magister.network.service.manual;
+package com.magister.network.service;
 
 import java.sql.Timestamp;
 import java.util.Random;
@@ -19,9 +19,9 @@ import com.magister.db.repository.MoteLinkRepository;
 import com.magister.db.repository.MoteRepository;
 import com.magister.db.repository.SensorDataRepository;
 
-public class ManualMoteRunable implements Runnable {
+public class MoteRunable implements Runnable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ManualMoteRunable.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MoteRunable.class);
 
     @Autowired
     private MoteRepository moteRepository;
@@ -38,7 +38,7 @@ public class ManualMoteRunable implements Runnable {
     private final Network network;
     private final Mote mote;
 
-    public ManualMoteRunable(Mote mote, Network network) {
+    public MoteRunable(Mote mote, Network network) {
         this.network = network;
         this.mote = mote;
     }

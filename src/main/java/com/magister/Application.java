@@ -13,12 +13,10 @@ import org.springframework.context.annotation.Scope;
 
 import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
+import com.magister.network.service.MoteRunable;
 import com.magister.network.service.MoteRunnableFactory;
+import com.magister.network.service.NetworkCallable;
 import com.magister.network.service.NetworkCallableFactory;
-import com.magister.network.service.auto.AutomaticNetwork;
-import com.magister.network.service.auto.MoteRunable;
-import com.magister.network.service.manual.ManualMoteRunable;
-import com.magister.network.service.manual.ManualNetwork;
 
 @SpringBootApplication(exclude = ErrorMvcAutoConfiguration.class)
 public class Application {
@@ -31,71 +29,39 @@ public class Application {
     }
 
     @Bean
-    public NetworkCallableFactory automaticNetworkFactory() {
+    public NetworkCallableFactory networkCallableFactory() {
         return new NetworkCallableFactory() {
 
             @Override
             public Callable<Boolean> createNetworkCallable(Network network) {
-                switch (network.getMode()) {
-                    case AUTOMATIC: {
-                        return automaticNetwork(network);
-                    }
-                    case MANUAL: {
-                        return manualNetwork(network);
-                    }
-                    default: {
-                        throw new UnsupportedOperationException("Unknown sensor network mode");
-                    }
-                }
+                return networkCallable(network);
             }
         };
     }
 
-    @Bean(name="moteRunnableFactory")
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public Callable<Boolean> networkCallable(Network network) {
+        return new NetworkCallable(network);
+    }
+
+    @Bean
     public MoteRunnableFactory moteRunnableFactory() {
         return new MoteRunnableFactory() {
 
             @Override
             public Runnable createMoteRunnable(Mote mote, Network network) {
-                return moteRunnable(mote);
-            }
-        };
-    }
-
-    @Bean(name="manualMoteRunnableFactory")
-    public MoteRunnableFactory manualMoteRunnableFactory() {
-        return new MoteRunnableFactory() {
-
-            @Override
-            public Runnable createMoteRunnable(Mote mote, Network network) {
-                return manualMoteRunnable(mote, network);
+                return moteRunnable(mote, network);
             }
         };
     }
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public Runnable moteRunnable(Mote mote) {
-        return new MoteRunable(mote);
+    public Runnable moteRunnable(Mote mote, Network network) {
+        return new MoteRunable(mote, network);
     }
 
-    @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public Runnable manualMoteRunnable(Mote mote, Network network) {
-        return new ManualMoteRunable(mote, network);
-    }
-
-    @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public Callable<Boolean> automaticNetwork(Network network) {
-        return new AutomaticNetwork(network);
-    }
-
-    @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public Callable<Boolean> manualNetwork(Network network) {
-        return new ManualNetwork(network);
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
