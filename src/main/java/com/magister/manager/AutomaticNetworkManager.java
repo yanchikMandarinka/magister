@@ -46,12 +46,14 @@ public class AutomaticNetworkManager {
         if (motes.size() == 0) {
             network.setStatus(Status.NO_LIVE_MOTES);
             networkRepository.save(network);
+            return;
         }
 
         Mote gateway = AutomaticNetworkManager.findLiveGateway(network);
         if (gateway == null) {
             network.setStatus(Status.NO_LIVE_GATEWAYS);
             networkRepository.save(network);
+            return;
         }
 
         // pick any gateway and create links between all nodes to gateway
@@ -68,6 +70,7 @@ public class AutomaticNetworkManager {
         topology.setLinks(links);
         network.setTopology(topology);
 
+        network.setStatus(Status.WORKING);
         networkRepository.save(network);
     }
 

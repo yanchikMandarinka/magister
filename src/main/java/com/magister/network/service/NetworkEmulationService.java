@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.magister.db.domain.Network;
+import com.magister.db.domain.Network.Mode;
 import com.magister.db.repository.NetworkRepository;
+import com.magister.manager.AutomaticNetworkManager;
+import com.magister.manager.ManualNetworkManager;
 
 @Service
 public class NetworkEmulationService {
@@ -31,13 +34,21 @@ public class NetworkEmulationService {
     @Autowired
     private NetworkCallableFactory factory;
 
+    @Autowired
+    private AutomaticNetworkManager automaticNetworkManager;
+
+    @Autowired
+    private ManualNetworkManager manualNetworkManager;
+
     @Transactional
     public void emulateNetwork(Network network) {
         cancelEmulation(network);
 
-        long networkId = network.getId();
-        Network reloadedNetwork = networkRepository.findOne(networkId);
-        emulateNetworkInternal(reloadedNetwork);
+        //TODO: assuming that we call #emulateNetwork after #saveNetwork
+        // we will save network twice: first in saveNetwork and second after update
+        reorganizeTopology(network);
+
+        emulateNetworkInternal(network);
     }
 
     public void cancelEmulation(Network network) {
@@ -54,5 +65,14 @@ public class NetworkEmulationService {
         Callable<Boolean> networkCallable = factory.createNetworkCallable(network);
         Future<Boolean> future = executor.submit(networkCallable);
         runningNetworks.put(network.getId(), future);
+    }
+
+    @Transactional
+    public void reorganizeTopology(Network network) {
+        if (network.getMode() == Mode.AUTOMATIC) {
+            automaticNetworkManager.reorganizeTopology(network);
+        } else {
+            manualNetworkManager.reorganizeTopology(network);
+        }
     }
 }

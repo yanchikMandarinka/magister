@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 
 import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
-import com.magister.db.domain.Network.Mode;
 import com.magister.db.repository.NetworkRepository;
 import com.magister.network.service.NetworkEmulationService;
 
@@ -19,12 +18,6 @@ public class NetworkManager {
 
     @Autowired
     private NetworkRepository networkRepository;
-
-    @Autowired
-    private AutomaticNetworkManager automaticNetworkManager;
-
-    @Autowired
-    private ManualNetworkManager manualNetworkManager;
 
     @Autowired
     private NetworkEmulationService networkEmulationService;
@@ -44,8 +37,6 @@ public class NetworkManager {
         }
         Assert.notNull(gateway, "Network must has at least ONE gateway");
 
-        reorganizeTopology(network);
-
         // when we save new network we need to start/restart it's emulation
         networkRepository.save(network);
         networkEmulationService.emulateNetwork(network);
@@ -57,14 +48,5 @@ public class NetworkManager {
 
         networkEmulationService.cancelEmulation(network);
         networkRepository.delete(network);
-    }
-
-    @Transactional
-    public void reorganizeTopology(Network network) {
-        if (network.getMode() == Mode.AUTOMATIC) {
-            automaticNetworkManager.reorganizeTopology(network);
-        } else {
-            manualNetworkManager.reorganizeTopology(network);
-        }
     }
 }

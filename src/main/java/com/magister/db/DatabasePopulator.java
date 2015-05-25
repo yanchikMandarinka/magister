@@ -32,7 +32,6 @@ public class DatabasePopulator {
         Network network = new Network();
         network.setName("Laboratory 1");
         network.setMode(Mode.AUTOMATIC);
-        network.setEnabled(false);
 
         List<Mote> motes = new ArrayList<>();
         motes.add(createMote(MoteType.TEMPERATURE, false));
