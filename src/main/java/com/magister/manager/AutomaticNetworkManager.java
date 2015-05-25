@@ -28,17 +28,6 @@ public class AutomaticNetworkManager {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public static Mote findLiveGateway(Network network) {
-        final List<Mote> motes = network.getMotes();
-        for (Mote mote : motes) {
-            if (mote.isGateway() && mote.isAlive()) {
-                return mote;
-            }
-        }
-
-        return null;
-    }
-
     @Transactional
     public void reorganizeTopology(Network network) {
         List<Mote> motes = network.getMotes();
@@ -49,7 +38,7 @@ public class AutomaticNetworkManager {
             return;
         }
 
-        Mote gateway = AutomaticNetworkManager.findLiveGateway(network);
+        Mote gateway = NetworkManager.findLiveGateway(network);
         if (gateway == null) {
             network.setStatus(Status.NO_LIVE_GATEWAYS);
             networkRepository.save(network);

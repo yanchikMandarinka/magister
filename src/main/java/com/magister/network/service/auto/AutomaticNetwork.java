@@ -11,16 +11,19 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.magister.db.domain.Mote;
 import com.magister.db.domain.Network;
 import com.magister.db.domain.Network.Status;
+import com.magister.network.service.MoteRunnableFactory;
 
 public class AutomaticNetwork implements Callable<Boolean> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AutomaticNetwork.class);
 
     @Autowired
+    @Qualifier("moteRunnableFactory")
     private MoteRunnableFactory moteRunnableFactory;
 
     private final Network network;
@@ -76,7 +79,7 @@ public class AutomaticNetwork implements Callable<Boolean> {
         for (Mote mote : motes) {
             if (mote.isAlive()) {
                 long delay = mote.getDelay();
-                Runnable command = moteRunnableFactory.createMoteRunnable(mote);
+                Runnable command = moteRunnableFactory.createMoteRunnable(mote, network);
                 ScheduledFuture<?> schedule = timer.scheduleAtFixedRate(command, delay, delay, TimeUnit.SECONDS);
                 futures.add(schedule);
             }

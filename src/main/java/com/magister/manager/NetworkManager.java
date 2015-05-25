@@ -22,6 +22,17 @@ public class NetworkManager {
     @Autowired
     private NetworkEmulationService networkEmulationService;
 
+    public static Mote findLiveGateway(Network network) {
+        final List<Mote> motes = network.getMotes();
+        for (Mote mote : motes) {
+            if (mote.isGateway() && mote.isAlive()) {
+                return mote;
+            }
+        }
+
+        return null;
+    }
+
     @Transactional
     public void saveOrUpdateNetwork(Network network) {
         Assert.hasText(network.getName(), "Network must has a name");

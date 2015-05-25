@@ -41,7 +41,7 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Edit network</div>
             <div class="panel-body">
-                <form:form action="/network/save">
+                <form:form action="/network/saveedit">
                     <form:hidden path="id"/>
                     <div class="form-group">
                         <label for="name">Network name</label>
@@ -73,13 +73,13 @@
                             </label>
                         </div>
                     </c:forEach>
-
+    
+                    <form:hidden path="topology.id"/>
+    
                     <h3>Mote links<button id="addMoteLink" type="button" class="btn btn-success">Add mote link</button></h3>
-                    <div id="links">
+                    <div id="linksContainer">
                         <c:forEach var="link" items="${command.topology.links}" varStatus="status">
                             <div class="form-group form-inline">
-                                <form:label path="topology.links[${status.index}].id">Link id</form:label>
-                                <form:input path="topology.links[${status.index}].id" class="form-control" />
                                 <form:label path="topology.links[${status.index}].source.id">Source</form:label>
                                 <form:input path="topology.links[${status.index}].source.id" class="form-control" />
                                 <form:label path="topology.links[${status.index}].target.id">Target</form:label>
@@ -101,38 +101,28 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<%--
+
     <script type="text/javascript">
 					$(function() {
-						var counter = 0;
-						$("#addMote")
+						var counter = ${fn:length(command.topology.links)};
+						$("#addMoteLink")
 								.click(
 										function(event) {
 											event.preventDefault();
 
 											var tpl = '<div class="form-inline form-group">'
-													+ '<input id="motesXXX.power" name="motes[XXX].power" placeholder="Power(integer)" name="power" class="form-control" type="text" />'
-													+ '<input id="motesXXX.latitude" name="motes[XXX].latitude" placeholder="Latitude(double)" name="latitude" class="form-control" type="text"/>'
-													+ '<input id="motesXXX.longtitude" name="motes[XXX].longtitude" placeholder="Longtitude(double)" name="longtitude" class="form-control" type="text"/>'
-													+ '<select id="motesXXX.moteType" name="motes[XXX].moteType" name="moteType" class="form-control">'
-													+     '<option value="TEMPERATURE">TEMPERATURE</option>'
-													+     '<option value="LIGHTNESS">LIGHTNESS</option>'
-													+ '</select>'
-													+ '<input id="motesXXX.delay" name="motes[XXX].delay" placeholder="Delay(integer)" name="delay" class="form-control" type="text" />'
-													+ '<label class="checkbox-inline" for="isGateway">'
-								                    +   '<input type="checkbox" name="motesXXX.gateway"/>isGateway'
-								                    + '</label>'
-								                    + '<input type="button" class="btn btn-danger" value="Remove" onclick="alert(/Unsupported yet/)"/>'
+				                                        + ' <label for="topology.linksXXX.source.id">Source</label>'
+				                                        + ' <input id="topology.linksXXX.source.id" name="topology.links[XXX].source.id" class="form-control" type="text" value="8">'
+				                                        + ' <label for="topology.linksXXX.target.id">Target</label>'
+				                                        + ' <input id="topology.linksXXX.target.id" name="topology.links[XXX].target.id" class="form-control" type="text" value="9">'
 													+ '</div>';
-											//var mote = $.template(tpl);
 											tpl = tpl.replace(/XXX/gi, counter);
-											//alert(tpl)
-											$("#moteContainer").append(tpl);
+											$("#linksContainer").append(tpl);
 											++counter;
 										});
 
 					});
 				</script>
-                 --%>
+                
 </body>
 </html>

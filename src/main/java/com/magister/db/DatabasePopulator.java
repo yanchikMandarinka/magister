@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +22,15 @@ import com.magister.manager.NetworkManager;
 
 @Component
 public class DatabasePopulator {
+    private static final Logger LOG = LoggerFactory.getLogger(DatabasePopulator.class);
 
     @Autowired
     private NetworkManager networkManager;
 
-
     @Transactional
     public void populateDatabase() {
+        LOG.info("Creating data for fake sensor networks");
+
         Random random = new Random();
 
         Network network = new Network();
@@ -37,11 +41,10 @@ public class DatabasePopulator {
         motes.add(createMote(MoteType.TEMPERATURE, false));
         motes.add(createMote(MoteType.LIGHTNESS, false));
         motes.add(createMote(MoteType.TEMPERATURE, false));
-        motes.add(createMote(MoteType.TEMPERATURE, false));
         motes.add(createMote(MoteType.TEMPERATURE, true));
         motes.add(createMote(MoteType.LIGHTNESS, false));
         motes.add(createMote(MoteType.TEMPERATURE, false));
-        motes.add(createMote(MoteType.TEMPERATURE, false));
+        motes.add(createMote(MoteType.TEMPERATURE, true));
 
         // network was running for N minutes
         long runtime = 5 + random.nextInt(10);// from 5 to 15 minutes
@@ -76,7 +79,7 @@ public class DatabasePopulator {
         Random random = new Random();
 
         Mote mote = new Mote();
-        mote.setPower(random.nextInt(1000));
+        mote.setPower(random.nextInt(500));
         mote.setLatitude(-90 + random.nextInt(180));
         mote.setLongtitude(-180 + random.nextInt(360));
         mote.setMoteType(moteType);

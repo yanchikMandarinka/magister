@@ -35,6 +35,7 @@
                             <th>Network name</th>
                             <th>Network mode</th>
                             <th>Motes count</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,6 +47,7 @@
                                 <td>${network.name}</td>
                                 <td>${network.mode}</td>
                                 <td>${fn:length(network.motes)}</td>
+                                <td>${network.status}</td>
                                 <td>
                                 <a href="/network/show?id=${network.id}"><span class="glyphicon glyphicon-eye-open text-success" aria-hidden="true"></span></a>
                                 <a href="/network/edit?id=${network.id}"><span class="glyphicon glyphicon-pencil text-warning" aria-hidden="true"></span></a>
