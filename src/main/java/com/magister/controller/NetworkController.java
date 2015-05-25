@@ -17,6 +17,7 @@ import com.magister.db.domain.Network;
 import com.magister.db.domain.Topology;
 import com.magister.db.repository.MoteRepository;
 import com.magister.db.repository.NetworkRepository;
+import com.magister.db.repository.TopologyRepository;
 import com.magister.manager.NetworkManager;
 
 @Controller
@@ -31,6 +32,9 @@ public class NetworkController {
 
     @Autowired
     private MoteRepository moteRepository;
+
+    @Autowired
+    private TopologyRepository topologyRepository;
 
     @RequestMapping(value = { "/list", "/" })
     public String networks(Model model) {
@@ -88,6 +92,8 @@ public class NetworkController {
             moteLink.setSource(motesMap.get(moteLink.getSource().getId()));
             moteLink.setTarget(motesMap.get(moteLink.getTarget().getId()));
         }
+        topologyRepository.delete(network2.getTopology());
+
         network2.setTopology(topology);
 
         networkManager.saveOrUpdateNetwork(network2);

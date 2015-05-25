@@ -63,24 +63,25 @@ public class ManualMoteRunable implements Runnable {
                 sensorData.setTimestamp(new Timestamp(System.currentTimeMillis()));
                 sensorData.setValue(String.valueOf(random.nextInt(100)));
 
-                MoteLink link = moteLinkRepository.findBySource(freshMote);
-                Mote sourceMote = link.getTarget();
 
-                LOG.info("{} transferring data to {}", freshMote, sourceMote);
-                if (!mote.isGateway()) {
-                    // assume gateway doesn't lose power
-                    mote.setPower(mote.getPower() - 1);
-                }
-                if (!sourceMote.isGateway()) {
-                    // assume gateway doesn't lose power
-                    sourceMote.setPower(sourceMote.getPower() - 1);
+                // assume gateway doesn't lose power
+                // and doesn't send data anywhere
+                if (!freshMote.isGateway()) {
+                    freshMote.setPower(freshMote.getPower() - 1);
+
+                    MoteLink link = moteLinkRepository.findBySourceId(freshMote.getId());
+                    Mote sourceMote = link.getTarget();
+                    LOG.info("{} transferring data to {}", freshMote, sourceMote);
+                    if (!sourceMote.isGateway()) {
+                        sourceMote.setPower(sourceMote.getPower() - 1);
+                        moteRepository.save(sourceMote);
+                    }
                 }
 
-                mote.getMetering().add(sensorData);
+                freshMote.getMetering().add(sensorData);
 
                 // update mote state in database
-                moteRepository.save(mote);
-                moteRepository.save(sourceMote);
+                moteRepository.save(freshMote);
             }
         } catch (Throwable t) {
             LOG.error("Exception during sensor wake up", t);
