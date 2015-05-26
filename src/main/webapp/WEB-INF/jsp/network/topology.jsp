@@ -71,14 +71,23 @@
 						// create an array with nodes
 					    var nodes = new vis.DataSet([
                         <c:forEach var="mote" items="${network.motes}">
-                            {id:${mote.id}, label:${mote.id}},
+                            {
+                            	id:${mote.id}, 
+                            	label:"${mote.id} ${mote.gateway ? 'Gateway' : 'Sensor'}",
+                            	color:"${mote.alive ? (mote.gateway ? '#7BE141' : '#00DDFF') : 'red'}",
+                            	title:"${mote}"
+                            },
                         </c:forEach>  	                                 
 					    ]);
 
 					    // create an array with edges
 					    var edges = new vis.DataSet([
                         <c:forEach var="link" items="${network.topology.links}">
-                            {from:${link.source.id}, to:${link.target.id}},
+                            {
+                            	from:${link.source.id}, 
+                            	to:${link.target.id},
+                            	arrows: 'to'
+                            },
                         </c:forEach>    
 					    ]);
 
@@ -90,7 +99,8 @@
 					        nodes: nodes,
 					        edges: edges
 					    };
-					    var options = {};
+					    var options = {
+					    };
 
 					    // initialize your network!
 					    var network = new vis.Network(container, data, options);
