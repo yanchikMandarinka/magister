@@ -35,6 +35,8 @@ public class MoteRunable implements Runnable {
     @PersistenceContext
     private EntityManager entityManager;
 
+    //TODO: actually only IDs are usable here
+    // because anyway you have to perform em.find(xxx)
     private final Network network;
     private final Mote mote;
 
@@ -55,7 +57,7 @@ public class MoteRunable implements Runnable {
         try {
             Mote freshMote = entityManager.find(Mote.class, mote.getId());
             // we should send data according to topology
-            if (mote.isAlive()) {
+            if (freshMote.isAlive()) {
 
                 Random random = new Random();
 

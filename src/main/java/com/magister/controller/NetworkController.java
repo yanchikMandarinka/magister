@@ -1,9 +1,5 @@
 package com.magister.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.magister.db.domain.Mote;
-import com.magister.db.domain.MoteLink;
 import com.magister.db.domain.Network;
-import com.magister.db.domain.Topology;
 import com.magister.db.repository.MoteRepository;
 import com.magister.db.repository.NetworkRepository;
 import com.magister.db.repository.TopologyRepository;
@@ -73,30 +66,7 @@ public class NetworkController {
     @RequestMapping("/saveedit")
     @Transactional
     public String editNetwork(Network network) {
-        Network network2 = networkRepository.findOne(network.getId());
-        network2.setEnabled(network.isEnabled());
-        network2.setName(network.getName());
-        network2.setStatus(network.getStatus());
-        network2.setMode(network.getMode());
-
-        List<Mote> motes = network.getMotes();
-        Map<Long, Mote> motesMap = new HashMap<>();
-        for (Mote mote : motes) {
-            motesMap.put(mote.getId(), mote);
-        }
-        network2.setMotes(motes);
-
-        Topology topology = network.getTopology();
-        List<MoteLink> links = topology.getLinks();
-        for (MoteLink moteLink : links) {
-            moteLink.setSource(motesMap.get(moteLink.getSource().getId()));
-            moteLink.setTarget(motesMap.get(moteLink.getTarget().getId()));
-        }
-        topologyRepository.delete(network2.getTopology());
-
-        network2.setTopology(topology);
-
-        networkManager.saveOrUpdateNetwork(network2);
+        networkManager.updateNetwork(network);
         return "redirect:list";
     }
 

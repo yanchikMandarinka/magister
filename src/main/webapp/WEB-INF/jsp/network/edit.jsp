@@ -60,20 +60,16 @@
                     <c:forEach var="mote" items="${command.motes}" varStatus="status">
                          <div class="form-group form-inline">
                             <form:label path="motes[${status.index}].id">Mote Id</form:label>
-                            <form:input path="motes[${status.index}].id" class="form-control"/>
+                            <form:hidden path="motes[${status.index}].id" class="form-control"/>
+                            <input type="text" class="form-control" value="${mote.id}" readonly="readonly"/>
                            
-                            <form:hidden path="motes[${status.index}].power" class="form-control" />
-                            <form:hidden path="motes[${status.index}].latitude" class="form-control" />
-                            <form:hidden path="motes[${status.index}].longtitude" class="form-control" />
-                            <form:hidden path="motes[${status.index}].moteType" class="form-control"/>
-                            <form:hidden path="motes[${status.index}].delay" class="form-control" />
-                            
                             <label class="checkbox-inline" for="isGateway" >
                                 <form:checkbox path="motes[${status.index}].gateway"/>isGateway
                             </label>
                         </div>
                     </c:forEach>
     
+                    <%-- Looks like it is not really required --%>
                     <form:hidden path="topology.id"/>
     
                     <h3>Mote links<button id="addMoteLink" type="button" class="btn btn-success">Add mote link</button></h3>

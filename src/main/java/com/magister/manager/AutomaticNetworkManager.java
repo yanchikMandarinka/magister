@@ -1,6 +1,5 @@
 package com.magister.manager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -46,8 +45,9 @@ public class AutomaticNetworkManager {
         }
 
         // pick any gateway and create links between all nodes to gateway
-        Topology topology = new Topology();
-        List<MoteLink> links = new ArrayList<>();
+        Topology topology = network.getTopology();
+        List<MoteLink> links = topology.getLinks();
+        links.clear();
         for (Mote mote : motes) {
             if (!mote.isGateway()) {
                 MoteLink link = new MoteLink();
@@ -56,8 +56,6 @@ public class AutomaticNetworkManager {
                 links.add(link);
             }
         }
-        topology.setLinks(links);
-        network.setTopology(topology);
 
         network.setStatus(Status.WORKING);
         networkRepository.save(network);

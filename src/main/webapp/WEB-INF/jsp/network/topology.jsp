@@ -34,27 +34,9 @@
 
     <div class="container">
         <div class="panel panel-primary">
-            <div class="panel-heading">Topology for network with id=${network.id} and name=${network.name}</div>
+            <div class="panel-heading">Topology for network with id=${network.id} and name=${network.name}. Network mode is ${network.mode}, status ${network.status}</div>
             <div class="panel-body">
                 <div id="mynetwork"></div>
-                <%--
-                    <table class="highchart table hidden" data-graph-container-before="1" data-graph-type="line">
-                        <thead>
-                            <tr>
-                                <th>Timestamp</th>
-                                <th>${mote.moteType}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="data" items="${mote.metering}">
-                                <tr>
-                                    <td>${data.timestamp}</td>
-                                    <td>${data.value}</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                     --%>
             </div>
         </div>
     </div>
@@ -73,7 +55,7 @@
                         <c:forEach var="mote" items="${network.motes}">
                             {
                             	id:${mote.id}, 
-                            	label:"${mote.id} ${mote.gateway ? 'Gateway' : 'Sensor'}",
+                            	label:"${mote.gateway ? 'Gateway' : 'Sensor'}(id=${mote.id})",
                             	color:"${mote.alive ? (mote.gateway ? '#7BE141' : '#00DDFF') : 'red'}",
                             	title:"${mote}"
                             },

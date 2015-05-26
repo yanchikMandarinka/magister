@@ -143,7 +143,13 @@ public class Mote {
 
     @Override
     public String toString() {
-        return "Mote [id=" + id + ", power=" + power
-                + ", isGateway=" + isGateway + ", isBroken=" + isBroken() + "]";
+        return "Mote [id=" + id
+                + ", power=" + power
+                + ", delay=" + delay
+                + ", type=" + moteType
+                + ", isGateway=" + isGateway
+                + ", isBroken=" + isBroken()
+                + ", isAlive=" + isAlive()
+                + "]";
     }
 }

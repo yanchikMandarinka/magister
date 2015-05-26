@@ -1,34 +1,22 @@
 package com.magister.db.domain;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
 
 @Entity
+@IdClass(MoteLinkPK.class)
 public class MoteLink {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Mote source;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Id
+    @ManyToOne(cascade = CascadeType.ALL)
     private Mote target;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public Mote getSource() {
         return source;
@@ -48,7 +36,7 @@ public class MoteLink {
 
     @Override
     public String toString() {
-        return "MoteLink [id=" + id + ", source=" + source + ", target=" + target + "]";
+        return "MoteLink [source=" + source + ", target=" + target + "]";
     }
 
 

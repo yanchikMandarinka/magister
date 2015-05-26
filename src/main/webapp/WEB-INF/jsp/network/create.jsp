@@ -52,6 +52,10 @@
                         
                         
                         <form:select class="form-control" id="mode" path="mode">
+                            <!-- 
+                            All networks should be created in AUTOMATIC mode.
+                            Other modes can be set during network edit process.
+                             -->
                             <option selected value="AUTOMATIC">AUTOMATIC</option>
                         </form:select>
                     </div>
@@ -96,9 +100,7 @@
 								                    + '</label>'
 								                    //+ '<input type="button" class="btn btn-danger" value="Remove" onclick="alert(/Unsupported yet/)"/>'
 													+ '</div>';
-											//var mote = $.template(tpl);
 											tpl = tpl.replace(/XXX/gi, counter);
-											//alert(tpl)
 											$("#moteContainer").append(tpl);
 											++counter;
 										});
