@@ -42,18 +42,8 @@ public class ManualNetworkManager {
             return;
         }
 
-        // pick any gateway and create links between all nodes to gateway
-//        Topology topology = network.getTopology();
-//        List<MoteLink> links = topology.getLinks();
-//        links.clear();
-//        for (Mote mote : motes) {
-//            if (!mote.isGateway()) {
-//                MoteLink link = new MoteLink();
-//                link.setSource(mote);
-//                link.setTarget(gateway);
-//                links.add(link);
-//            }
-//        }
+        // build the graph and check it's connectivity, i.e.
+        // all vertexes can be reached starting from gateway node
 
         network.setStatus(Status.WORKING);
         networkRepository.save(network);
