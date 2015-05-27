@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,8 +50,8 @@ public class NetworkController {
     }
 
     @RequestMapping("/create")
-    public ModelAndView createNetwork() {
-        return new ModelAndView("network/create", "command", new Network());
+    public String createNetwork(@ModelAttribute Network network) {
+        return "network/create";
     }
 
     @RequestMapping("/edit")
@@ -58,7 +61,19 @@ public class NetworkController {
     }
 
     @RequestMapping("/save")
-    public String createNetwork(Network network) {
+    public String createNetwork(@ModelAttribute Network network, BindingResult bindingResult) {
+        if (!StringUtils.hasText(network.getName())) {
+            bindingResult.rejectValue("name", "error.network.name", "Network must has a name");
+        }
+
+        if (NetworkManager.findLiveGateway(network) == null) {
+            bindingResult.rejectValue("motes", "error.motes.no.gateway", "Network must has at least ONE gateway");
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "network/create";
+        }
+
         networkManager.saveOrUpdateNetwork(network);
         return "redirect:list";
     }

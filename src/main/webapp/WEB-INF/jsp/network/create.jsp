@@ -42,7 +42,10 @@
             <div class="panel-heading">Create network</div>
             <div class="panel-body">
             
-                <form:form action="/network/save">
+                <form:form action="/network/save" commandName="network">
+                    
+                    <form:errors path="name" cssClass="alert alert-danger" element="div" role="alert"/>
+                    
                     <div class="form-group">
                         <label for="name">Network name</label>
                         <form:input type="text" class="form-control" id="name" placeholder="Enter network name" path="name" />
@@ -62,7 +65,26 @@
                     <div class="form-group">
                         <button id="addMote" type="button" class="btn btn-success">Add mote</button>
                     </div>
-                    <div id="moteContainer"></div>
+                       
+                    <form:errors path="motes" cssClass="alert alert-danger" element="div" role="alert"/>
+                        
+                    <div id="moteContainer">
+                        <c:forEach var="mote" items="${network.motes}" varStatus="status">
+                           <form:errors path="motes[${status.index}]*" cssClass="alert alert-danger" element="div" role="alert"/>
+                            <div class="form-group form-inline">
+                                <form:input path="motes[${status.index}].power" class="form-control" placeholder="Power(integer)"/>
+                                <form:input path="motes[${status.index}].latitude" class="form-control" placeholder="Latitude(double)"/>
+                                <form:input path="motes[${status.index}].longtitude" class="form-control" placeholder="Longtitude(double)"/>
+                                <form:select path="motes[${status.index}].moteType" class="form-control">
+                                    <form:options items="${MoteType.values()}"/>
+                                </form:select>
+                                <form:input path="motes[${status.index}].delay" class="form-control" placeholder="Delay(integer)"/>
+                                <label class="checkbox-inline" for="motes[${status.index}].gateway">
+                                    <form:checkbox path="motes[${status.index}].gateway"/>isGateway
+                                </label>
+                            </div>
+                        </c:forEach>
+                    </div>
                     <button type="submit" class="btn btn-primary">Create</button>
                 </form:form>
             </div>
@@ -79,25 +101,25 @@
 
     <script type="text/javascript">
 					$(function() {
-						var counter = 0;
+						var counter = ${fn:length(network.motes)};
 						$("#addMote")
 								.click(
 										function(event) {
 											event.preventDefault();
 
 											var tpl = '<div class="form-inline form-group">'
-													+ '<input id="motesXXX.power" name="motes[XXX].power" placeholder="Power(integer)" name="power" class="form-control" type="text" />'
-													+ '<input id="motesXXX.latitude" name="motes[XXX].latitude" placeholder="Latitude(double)" name="latitude" class="form-control" type="text"/>'
-													+ '<input id="motesXXX.longtitude" name="motes[XXX].longtitude" placeholder="Longtitude(double)" name="longtitude" class="form-control" type="text"/>'
-													+ '<select id="motesXXX.moteType" name="motes[XXX].moteType" name="moteType" class="form-control">'
+													+ ' <input id="motesXXX.power" name="motes[XXX].power" placeholder="Power(integer)" name="power" class="form-control" type="text" />'
+													+ ' <input id="motesXXX.latitude" name="motes[XXX].latitude" placeholder="Latitude(double)" name="latitude" class="form-control" type="text"/>'
+													+ ' <input id="motesXXX.longtitude" name="motes[XXX].longtitude" placeholder="Longtitude(double)" name="longtitude" class="form-control" type="text"/>'
+													+ ' <select id="motesXXX.moteType" name="motes[XXX].moteType" name="moteType" class="form-control">'
 													+     '<c:forEach items="${MoteType.values()}" var="enumValue">'
 													+         '<option value="${enumValue}">${enumValue}</option>'
 												    +     '</c:forEach>'
-													+ '</select>'
-													+ '<input id="motesXXX.delay" name="motes[XXX].delay" placeholder="Delay(integer)" name="delay" class="form-control" type="text" />'
-													+ '<label class="checkbox-inline" for="motesXXX.gateway">'
-								                    +   '<input type="checkbox" id="motesXXX.gateway" name="motes[XXX].gateway"/>isGateway'
-								                    + '</label>'
+													+ ' </select>'
+													+ ' <input id="motesXXX.delay" name="motes[XXX].delay" placeholder="Delay(integer)" name="delay" class="form-control" type="text" />'
+													+ ' <label class="checkbox-inline" for="motesXXX.gateway">'
+								                    + '   <input type="checkbox" id="motesXXX.gateway" name="motes[XXX].gateway"/>isGateway'
+								                    + ' </label>'
 								                    //+ '<input type="button" class="btn btn-danger" value="Remove" onclick="alert(/Unsupported yet/)"/>'
 													+ '</div>';
 											tpl = tpl.replace(/XXX/gi, counter);

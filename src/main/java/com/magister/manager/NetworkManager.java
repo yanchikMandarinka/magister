@@ -109,14 +109,7 @@ public class NetworkManager {
         Assert.hasText(network.getName(), "Network must has a name");
 
         // check that at least one gateway is present
-        Mote gateway = null;
-        List<Mote> motes = network.getMotes();
-        for (Mote mote : motes) {
-            if (mote.isGateway()) {
-                gateway = mote;
-                break;
-            }
-        }
+        Mote gateway = findLiveGateway(network);
         Assert.notNull(gateway, "Network must has at least ONE gateway");
 
         if (network.getMode() == Mode.MANUAL) {
